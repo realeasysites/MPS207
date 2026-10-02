@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Leads Dashboard — MPS207 Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#f4f4f4; margin:0; color:#1a1a1a; }
+  header { background:#141414; color:#fff; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; }
+  header h1 { font-size:1.2rem; margin:0; }
+  header h1 span { color:#e4141b; }
+  header form { margin:0; }
+  header button { background:transparent; border:1px solid #555; color:#ccc; padding:.4rem .9rem; border-radius:6px; cursor:pointer; }
+  header button:hover { border-color:#e4141b; color:#fff; }
+  .wrap { padding:1.5rem; overflow-x:auto; }
+  .count { color:#555; margin-bottom:1rem; }
+  table { border-collapse: collapse; width:100%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.08); font-size:.9rem; }
+  th, td { padding:.7rem .8rem; border-bottom:1px solid #eee; text-align:left; vertical-align:top; }
+  th { background:#1a1a1a; color:#fff; position:sticky; top:0; }
+  .msg-cell { max-width:280px; white-space:pre-wrap; }
+  tr.status-new { background:#fff7e6; }
+  tr.status-scheduled { background:#e9f7ef; }
+  select { padding:.4rem; border-radius:4px; border:1px solid #ccc; }
+  .status-form { display:flex; gap:.4rem; align-items:center; }
+  .status-form button { background:#e4141b; color:#fff; border:none; padding:.4rem .7rem; border-radius:4px; cursor:pointer; }
+  .status-form button:hover { background:#c11017; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>MPS<span>207</span> — Leads Dashboard</h1>
+    <form method="POST" action="/admin/logout"><button type="submit">Log Out</button></form>
+  </header>
+  <div class="wrap">
+    <p class="count"><!--LEAD_COUNT--> total leads</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Received</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Service(s)</th>
+          <th>Preferred Date</th>
+          <th>Message</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!--LEAD_ROWS-->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
