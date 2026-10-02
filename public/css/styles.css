@@ -72,30 +72,42 @@ header.site-header {
   border-bottom: 3px solid var(--red);
 }
 .nav-wrap {
-  max-width: 1140px; margin: 0 auto; padding: 0.8rem 1.5rem;
+  max-width: 1320px; margin: 0 auto; padding: 0.8rem 1.5rem;
   display: flex; align-items: center; justify-content: space-between;
 }
-.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
 .brand img { height: 42px; width: auto; border-radius: 6px; }
-.brand-text { color: #fff; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1.3rem; }
+.brand-text { color: #fff; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1.3rem; white-space: nowrap; }
 .brand-text span { color: var(--red); }
-nav.main-nav { display: flex; align-items: center; gap: 1.6rem; }
+nav.main-nav { display: flex; align-items: center; gap: 1.2rem; flex-shrink: 0; }
 nav.main-nav a {
   color: #ddd; text-decoration: none; font-weight: 600; font-size: 0.92rem;
-  text-transform: uppercase; letter-spacing: 0.03em;
+  text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap;
 }
 nav.main-nav a:hover, nav.main-nav a.active { color: var(--red); }
 .nav-social { display: flex; gap: 0.9rem; align-items: center; }
 .nav-social a { display: flex; }
 .nav-social svg { width: 20px; height: 20px; fill: #ddd; transition: 0.15s; }
 .nav-social a:hover svg { fill: var(--red); }
-.nav-cta { margin-left: 0.4rem; }
-.nav-phone { color: #fff !important; }
-.menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; }
+.nav-cta { margin-left: 0.4rem; white-space: nowrap; }
+/* The phone number already lives in the hero, footer, and mobile call bar —
+   dropping it from the inline desktop nav frees up room so the real nav
+   links never get squeezed against the logo (see .menu-toggle breakpoint). */
+.nav-phone { display: none; }
+.menu-toggle { display: none; background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; flex-shrink: 0; }
 
-@media (max-width: 880px) {
-  nav.main-nav { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; background: var(--black); flex-direction: column; padding: 2rem 1.5rem; gap: 1.6rem; transform: translateX(100%); transition: transform 0.25s ease; overflow-y: auto; }
+/* Switched to the hamburger well before the full nav (6 links + icons + CTA,
+   set in bold uppercase Oswald) can run out of room and overlap the logo —
+   that overlap is exactly what was happening at normal desktop widths before
+   this fix, since .nav-wrap's own max-width caps out at 1320px regardless of
+   screen size. 1300px gives a solid margin of safety on real fonts (the
+   Google Fonts Oswald used for the nav couldn't be test-rendered in this
+   environment, so this breakpoint is intentionally conservative — worth a
+   quick look on a real monitor in the 1180-1400px range after deploy). */
+@media (max-width: 1300px) {
+  nav.main-nav { position: fixed; top: 70px; left: 0; right: 0; bottom: 0; background: var(--black); flex-direction: column; padding: 2rem 1.5rem; gap: 1.6rem; transform: translateX(100%); transition: transform 0.25s ease; overflow-y: auto; justify-content: flex-start; }
   nav.main-nav.open { transform: translateX(0); }
+  nav.main-nav .nav-phone { display: block; }
   .menu-toggle { display: block; }
 }
 
@@ -107,6 +119,22 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--red); }
   padding: 5.5rem 0 4.5rem;
 }
 .hero.has-photo { background-image: linear-gradient(180deg, rgba(15,15,15,0.55), rgba(15,15,15,0.9)), url('/images/mps-van-front.webp'); background-size: cover; background-position: center; }
+.hero.has-video { overflow: hidden; background: var(--black); }
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center; z-index: 0;
+}
+.hero-video-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(15,15,15,0.6), rgba(15,15,15,0.9));
+}
+.hero.has-video .hero-grid { position: relative; z-index: 2; }
+/* Respect reduced-motion / users who'd rather not autoplay video: fall back
+   to the poster frame as a plain still image instead of animating. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { display: none; }
+  .hero.has-video { background-image: linear-gradient(180deg, rgba(15,15,15,0.6), rgba(15,15,15,0.9)), url('/images/hero-poster.jpg'); background-size: cover; background-position: center; }
+}
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
 .hero h1 { font-size: clamp(2.1rem, 4vw, 3.2rem); margin-bottom: 0.4em; }
 .hero h1 span { color: var(--red); }
