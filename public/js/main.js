@@ -36,15 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const data = await res.json();
         if (data.ok) {
-          statusEl.textContent = "Thanks — that's in. Keith (or the team) will get back to you shortly. For anything urgent, call/text (207) 504-7586.";
+          statusEl.textContent = "Thanks — got it. I'll get back to you shortly. For anything urgent, call/text me at (207) 504-7586.";
           statusEl.className = 'success';
           form.reset();
         } else {
-          statusEl.textContent = data.error || 'Something went wrong. Please call/text (207) 504-7586 directly.';
+          statusEl.textContent = data.error || 'Something went wrong. Please call/text me directly at (207) 504-7586.';
           statusEl.className = 'error';
         }
       } catch (err) {
-        statusEl.textContent = 'Something went wrong. Please call/text (207) 504-7586 directly.';
+        statusEl.textContent = 'Something went wrong. Please call/text me directly at (207) 504-7586.';
         statusEl.className = 'error';
       }
     });

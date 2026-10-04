@@ -138,19 +138,68 @@ nav.main-nav a:hover, nav.main-nav a.active { color: var(--red); }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
 .hero h1 { font-size: clamp(2.1rem, 4vw, 3.2rem); margin-bottom: 0.4em; }
 .hero h1 span { color: var(--red); }
+.hero.has-video .eyebrow { color: #ff4a50; text-shadow: 0 1px 6px rgba(0,0,0,0.85); }
+.hero.has-video h1 { text-shadow: 0 2px 14px rgba(0,0,0,0.55); }
 .hero p.lead { font-size: 1.15rem; color: #eee; max-width: 520px; }
 .hero-badges { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.6rem 0; }
 .hero-badge { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25); padding: 0.4rem 0.9rem; border-radius: 30px; font-size: 0.82rem; font-weight: 600; }
 .hero-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
 .hero-photo-card { background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-.hero-photo-card img { width: 100%; }
-@media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; } .hero-photo-card { order: -1; max-width: 420px; margin: 0 auto; } }
+.hero-photo-card img { width: 100%; height: auto; }
+
+/* Family section */
+.family-feature { background: #fff; }
+.family-feature .about-grid { grid-template-columns: 1.05fr 0.95fr; }
+.family-feature p { color: #333; font-size: 1.05rem; }
+.family-feature .family-sign { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; color: var(--black); font-size: 1.1rem; margin-top: 1.4rem; }
+.family-feature .family-sign span { color: var(--red); }
+.family-photo { border-radius: var(--radius); overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.18); }
+.family-photo img { width: 100%; height: auto; border-radius: 0; }
+@media (max-width: 880px) {
+  .family-feature .about-grid { grid-template-columns: 1fr; }
+  .family-feature .family-photo { order: -1; }
+}
+
+/* Mobile hero: the photo card used to sit ABOVE the headline at 420px wide, which
+   on a phone filled the whole first screen and buried the background video. Now the
+   headline comes first over the video (with a lighter overlay up top so the footage
+   actually reads), and the photo card drops below the CTAs at a smaller size. */
+@media (max-width: 880px) {
+  .hero { padding: 3.5rem 0 3rem; }
+  .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-photo-card { order: 2; max-width: 300px; width: 100%; margin: 0 auto; box-shadow: 0 14px 34px rgba(0,0,0,0.5); }
+  .hero-video-overlay { background: linear-gradient(180deg, rgba(15,15,15,0.45) 0%, rgba(15,15,15,0.6) 35%, rgba(15,15,15,0.85) 100%); }
+  .hero .eyebrow { color: #ff4a50; text-shadow: 0 1px 6px rgba(0,0,0,0.85); }
+  .hero h1 { text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+  .trust-bar .container { gap: 0.9rem 1.4rem; }
+  .hero p.lead { font-size: 1.05rem; text-shadow: 0 1px 8px rgba(0,0,0,0.6); }
+  .hero-badges { margin: 1.2rem 0; gap: 0.5rem; }
+  .hero-badge { background: rgba(15,15,15,0.55); }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.9rem; }
+  .hero-cta-row .btn { flex: 1 1 100%; text-align: center; }
+  .hero-photo-card { max-width: 260px; }
+}
 
 /* Trust bar */
 .trust-bar { background: #fff; border-bottom: 1px solid #eee; padding: 1.2rem 0; }
 .trust-bar .container { display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: center; }
 .trust-item { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--gray); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.03em; }
 .trust-item strong { color: var(--black); }
+.trust-item.trust-rheem { background: var(--red); color: #fff; padding: 0.45rem 1rem; border-radius: 30px; }
+.trust-item.trust-rheem strong { color: #fff; }
+
+/* Rheem partnership feature */
+.rheem-feature { border-bottom: 1px solid #eee; }
+.rheem-photo { position: relative; }
+.rheem-photo img { width: 100%; max-height: 480px; object-fit: cover; box-shadow: 0 16px 40px rgba(0,0,0,0.15); }
+.rheem-tag {
+  position: absolute; left: 1rem; bottom: 1rem;
+  background: var(--red); color: #fff; font-family: 'Oswald', sans-serif; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.85rem;
+  padding: 0.45rem 0.9rem; border-radius: 4px;
+}
 
 /* Social stat cards */
 .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
