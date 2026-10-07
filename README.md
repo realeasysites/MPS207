@@ -24,8 +24,13 @@ Visit http://localhost:3000. Admin dashboard: http://localhost:3000/admin
 (login with the ADMIN_USERNAME / ADMIN_PASSWORD you set in `.env`).
 
 ## Required Environment Variables (see `.env.example`)
-- `SESSION_SECRET` — random string, protects admin login sessions
-- `ADMIN_USERNAME` / `ADMIN_PASSWORD` — admin dashboard login
+- `SESSION_SECRET` — long random string, protects admin login sessions
+  (if unset, a random one is generated each boot, so admin gets logged out on restart)
+- `ADMIN_USERNAME` / `ADMIN_PASSWORD` — admin dashboard login. There is **no
+  default password**: until `ADMIN_PASSWORD` (8+ characters) is set, the
+  dashboard refuses every login.
+- `DB_PATH` — where the lead database lives. On Render, point this at the
+  persistent disk, e.g. `/var/data/mps207.db`.
 - `NOTIFY_EMAIL` — inbox that gets emailed on every new quote request
   (currently defaults to mcgillivary77@gmail.com in the example — **confirm
   with Keith which inbox he actually wants leads sent to**, same as the other
@@ -49,10 +54,10 @@ logs a warning) until SMTP is set up.
    Lounge, Barry Larry's, and Dunn Lawn builds.
 5. Add all the environment variables from `.env.example` in Render's
    dashboard (Environment tab).
-6. **Add a persistent disk** mounted at `/db` (or wherever `db/mps207.db`
-   ends up) if you want lead data to survive redeploys — Render's default
-   filesystem is ephemeral. Alternatively, swap SQLite for a managed
-   Postgres later if lead volume grows.
+6. **Add a persistent disk** (paid instance required) mounted at `/var/data`,
+   then set `DB_PATH=/var/data/mps207.db`. Without it, every quote request is
+   wiped on each redeploy/restart — Render's default filesystem is ephemeral.
+   Alternatively, swap SQLite for a managed Postgres later if lead volume grows.
 
 ## Updating Photos / Reels Later
 - Photos live in `public/images/`. Swap the file and keep the same filename,

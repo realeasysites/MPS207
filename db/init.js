@@ -1,8 +1,14 @@
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
 
-const DB_PATH = path.join(__dirname, 'mps207.db');
+// On Render, set DB_PATH to a file on the persistent disk (e.g. /var/data/mps207.db)
+// so quote requests survive restarts and redeploys. Without it, the database lives
+// in the app folder, which Render wipes on every deploy.
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'mps207.db');
+fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 const db = new Database(DB_PATH);
+console.log(`[db] Using database at ${DB_PATH}`);
 
 db.pragma('journal_mode = WAL');
 
