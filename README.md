@@ -35,6 +35,8 @@ Visit http://localhost:3000. Admin dashboard: http://localhost:3000/admin
   (currently defaults to mcgillivary77@gmail.com in the example — **confirm
   with Keith which inbox he actually wants leads sent to**, same as the other
   client builds)
+- `SITE_URL` — e.g. `https://mps207.com`; adds an "Open lead dashboard" link to alert emails
+- `MAIL_FROM` (optional) — display name/address for alerts, defaults to `"MPS207 Website" <SMTP_USER>`
 - `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` / `SMTP_USER` / `SMTP_PASS` —
   sending email account. If using Gmail, `SMTP_USER`/`SMTP_PASS` must be a
   Gmail **App Password**, not the real account password.
