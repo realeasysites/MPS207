@@ -12,7 +12,22 @@ form, email notifications, and a password-protected admin dashboard — plus a
 - `/gallery` — Heavy social page: embedded IG reels, stats, links to every platform
 - `/about` — Keith's story
 - `/contact` — Quote request form + map + contact info
-- `/admin` — Password-protected leads dashboard
+- `/admin` — Password-protected leads dashboard, with **website traffic** at the top
+
+## Website traffic (`site-analytics/`)
+Real Easy Sites' drop-in tracking module (same one as Loria Construction). Shows
+visitors, page views, where visitors came from (Facebook, Google, Instagram,
+TikTok…), most-viewed pages, phone vs computer, call/text taps, form leads and
+contact rate for the last 7 / 30 / 90 days.
+- Cookieless, no IPs stored, no outside service: data lives in the same SQLite
+  file as the leads (on the persistent disk), in `sa_*` tables.
+- Bots and Keith's own logged-in admin visits aren't counted. To stop counting
+  your own phone, open `https://mps207.com/#notrack` once (`#track` undoes it).
+- Tag links so they show up by name: Google Business Profile website link →
+  `https://mps207.com/?utm_source=gbp`; van/QR/flyers → `?utm_source=truck`, `?utm_source=qr`.
+- Wiring: `server.js` mounts it with `isAuthed` / `requireAdminApi` from
+  `lib/auth.js`; every public page has `<script src="/sa/t.js" defer></script>`;
+  `views/admin-dashboard.html` loads the panel. Details in `site-analytics/README.md`.
 
 ## Local Setup
 ```bash

@@ -6,6 +6,9 @@ const crypto = require('crypto');
 
 const quoteRoutes = require('./routes/quote');
 const adminRoutes = require('./routes/admin');
+const db = require('./db/init');
+const { isAuthed, requireAdminApi } = require('./lib/auth');
+const mountSiteAnalytics = require('./site-analytics');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +38,10 @@ app.use(session({
     secure: Boolean(process.env.RENDER), // Render sets RENDER=true; keeps local dev on http working
   },
 }));
+
+// Website traffic: page views, visitors, sources and call/text taps, shown at the
+// top of the /admin dashboard. Cookieless; skips bots and Keith's own admin visits.
+mountSiteAnalytics(app, { db, isAuthed, requireAdmin: requireAdminApi, timezone: 'America/New_York' });
 
 // Static site (public/index.html, /about -> about.html, etc.)
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
