@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const { requireAdmin, checkCredentials } = require('../lib/auth');
-const { getAllLeads, updateLeadStatus } = require('../lib/db');
+const { getAllLeads, updateLeadStatus, deleteLead } = require('../lib/db');
 
 function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, (c) => ({
@@ -12,7 +12,7 @@ function escapeHtml(str) {
 }
 
 router.get('/admin/login', (req, res) => {
-  const errorParam = req.query.error ? '<p class="error">Incorrect username or password.</p>' : '';
+  const errorParam = req.query.error ? '<p class="error">Incorrect password.</p>' : '';
   const html = fs.readFileSync(path.join(__dirname, '../views/admin-login.html'), 'utf8')
     .replace('<!--ERROR-->', errorParam);
   res.send(html);
@@ -56,6 +56,9 @@ router.get('/admin/dashboard', requireAdmin, (req, res) => {
             <select name="status">${options}</select>
             <button type="submit">Update</button>
           </form>
+          <form method="POST" action="/admin/leads/${l.id}/delete" class="delete-form" onsubmit="return confirm('Delete this request? This cannot be undone.');">
+            <button type="submit">Delete</button>
+          </form>
         </td>
       </tr>`;
   }).join('\n');
@@ -69,6 +72,12 @@ router.get('/admin/dashboard', requireAdmin, (req, res) => {
 
 router.post('/admin/leads/:id/status', requireAdmin, express.urlencoded({ extended: true }), (req, res) => {
   updateLeadStatus(req.params.id, req.body.status);
+  res.redirect('/admin/dashboard');
+});
+
+// Delete a request that isn't a real lead (spam, test, wrong number).
+router.post('/admin/leads/:id/delete', requireAdmin, (req, res) => {
+  deleteLead(req.params.id);
   res.redirect('/admin/dashboard');
 });
 
